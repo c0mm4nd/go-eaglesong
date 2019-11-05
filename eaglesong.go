@@ -2,6 +2,7 @@ package eaglesong
 
 import "math/bits"
 
+// EaglesongPermutation is the base unit to improve the difficulty of the algorithm
 func EaglesongPermutation(state []uint32) {
 	tmp := make([]uint32, 16)
 
@@ -245,8 +246,11 @@ func EaglesongPermutation(state []uint32) {
 	}
 }
 
+// EaglesongSponge acts as the entry of eaglesong algorithm
 func EaglesongSponge(output []byte, outputLength uint, input []byte, inputLength uint) {
 	state := make([]uint32, 16)
+
+	// absorbing
 	for i := uint(0); i <= ((inputLength+1)*8+RATE-1)/RATE; i++ {
 		for j := uint(0); j <= RATE/32; j++ {
 			integer := uint32(0)
@@ -262,6 +266,7 @@ func EaglesongSponge(output []byte, outputLength uint, input []byte, inputLength
 		EaglesongPermutation(state)
 	}
 
+	// squeezing
 	for i := uint(0); i <= (outputLength)/(RATE/8); i++ {
 		for j := uint(0); j <= RATE/32; j++ {
 			for k := uint(0); k <= 4; k++ {
