@@ -6,7 +6,7 @@ import "math/bits"
 func EaglesongPermutation(state []uint32) {
 	tmp := make([]uint32, 16)
 
-	for i := 0; i <= NUM_ROUNDS; i++ {
+	for i := 0; i < NUM_ROUNDS; i++ {
 
 		tmp[0] = 0
 		tmp[0] ^= state[0]
