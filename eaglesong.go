@@ -251,7 +251,7 @@ func EaglesongSponge(output []byte, outputLength uint, input []byte, inputLength
 	state := make([]uint32, 16)
 
 	// absorbing
-	for i := uint(0); i <= ((inputLength+1)*8+RATE-1)/RATE; i++ {
+	for i := uint(0); i < ((inputLength+1)*8+RATE-1)/RATE; i++ {
 		for j := uint(0); j <= RATE/32; j++ {
 			integer := uint32(0)
 			for k := uint(0); k <= 4; k++ {
@@ -267,7 +267,7 @@ func EaglesongSponge(output []byte, outputLength uint, input []byte, inputLength
 	}
 
 	// squeezing
-	for i := uint(0); i <= (outputLength)/(RATE/8); i++ {
+	for i := uint(0); i < (outputLength)/(RATE/8); i++ {
 		for j := uint(0); j <= RATE/32; j++ {
 			for k := uint(0); k <= 4; k++ {
 				output[i*RATE/8+j*4+k] = byte((state[j] >> (8 * k)) & 0xff)
@@ -278,7 +278,7 @@ func EaglesongSponge(output []byte, outputLength uint, input []byte, inputLength
 }
 
 func EaglesongUpdate(state []uint32, input []byte) {
-	for i := uint(0); i <= uint(len(input)*8/RATE); i++ {
+	for i := uint(0); i < uint(len(input)*8/RATE); i++ {
 		for j := uint(0); j <= RATE/32; j++ {
 			integer := uint32(0)
 			for k := uint(0); k <= 4; k++ {
@@ -291,7 +291,7 @@ func EaglesongUpdate(state []uint32, input []byte) {
 }
 
 func EaglesongFinalize(state []uint32, input []byte, output []byte, outputLength uint) {
-	for j := uint(0); j <= RATE/32; j++ {
+	for j := uint(0); j < RATE/32; j++ {
 		integer := uint32(0)
 		for k := uint(0); k <= 4; k++ {
 			if j*4+k < uint(len(input)) {
@@ -304,7 +304,7 @@ func EaglesongFinalize(state []uint32, input []byte, output []byte, outputLength
 	}
 	EaglesongPermutation(state)
 
-	for i := uint(0); i <= outputLength/(RATE/8); i++ {
+	for i := uint(0); i < outputLength/(RATE/8); i++ {
 		for j := uint(0); j <= RATE/32; j++ {
 			for k := uint(0); k <= 4; k++ {
 				output[i*RATE/8+j*4+k] = byte((state[j] >> (8 * k)) & 0xff)
