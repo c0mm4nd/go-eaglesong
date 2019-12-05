@@ -7,7 +7,8 @@ import (
 
 // Eaglesong func is just a shortcut for EaglesongSponge, it's silly, no time saving on reusing
 func Eaglesong(input []byte) (output []byte) {
-	EaglesongSponge(output, uint(len(output)), input, uint(len(input)))
+	output := make([]byte, 32)
+	EaglesongSponge(output, 32, input, uint(len(input)))
 	return
 }
 
